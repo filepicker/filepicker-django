@@ -5,6 +5,7 @@ import models
 
 def home(request):
     if request.method == "POST":
+        print request.POST, request.FILES
         form = models.TestModelForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
