@@ -1,7 +1,4 @@
 from django.forms import widgets
-from django.core.files.base import File
-
-import urllib2
 
 INPUT_TYPE = 'filepicker-dragdrop'
 
