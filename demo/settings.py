@@ -102,7 +102,7 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = {
-    'filepicker.context_processors.js'
+    'django_filepicker.context_processors.js'
 }
 
 MIDDLEWARE_CLASSES = (
@@ -129,7 +129,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'filepicker',
     'filepicker_demo',
 )
 

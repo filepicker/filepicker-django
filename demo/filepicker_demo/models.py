@@ -1,7 +1,7 @@
 from django.db import models
 from django import forms
 
-import filepicker.models as fpmodels
+import django_filepicker.models as fpmodels
 
 
 class TestModel(models.Model):
