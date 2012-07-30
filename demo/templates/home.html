@@ -1,0 +1,13 @@
+<html>
+    <head>
+        {{FILEPICKER_JS}}
+    </head>
+    <body>
+        <h1>Testing</h1>
+        <form method="post" action="/">
+            {%csrf_token%}
+            {{ form }}
+            <input type="submit" value="Submit"/>
+        </form>
+    </body>
+</html>
