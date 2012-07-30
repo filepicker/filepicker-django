@@ -2,6 +2,9 @@ from django import forms
 from django.conf import settings
 
 import widgets
+import models
+
+#Expects FILEPICKER_API_KEY to be set in settings
 
 
 class FPFileField(forms.FileField):
@@ -9,6 +12,7 @@ class FPFileField(forms.FileField):
     default_mimetypes = "*/*"
 
     def __init__(self, *args, **kwargs):
+        print args, kwargs
         self.apikey = kwargs.pop('apikey', settings.FILEPICKER_API_KEY)
         self.multiple = kwargs.pop('multiple', False)
         self.persist = kwargs.pop('persist', False)
@@ -34,3 +38,10 @@ class FPFileField(forms.FileField):
             attrs['data-fp-persist'] = "true"
 
         return attrs
+
+    def to_python(self, data):
+        if not data:
+            return None
+
+        fp = models.FPFile(None, name=None, url=data)
+        return fp
