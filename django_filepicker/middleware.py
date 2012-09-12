@@ -1,6 +1,7 @@
 import re
 import urllib2
 from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
 
 
 class URLFileMapperMiddleware(object):
@@ -29,7 +30,11 @@ class URLFileMapperMiddleware(object):
                     else:
                         name = "fp-file"
 
-                    request.FILES[key] = File(val, name=name)
+                    fp_data = NamedTemporaryFile(delete=True)
+                    fp_data.write(url_fp.read())
+                    fp_data.flush()
+
+                    request.FILES[key] = File(fp_data, name=name)
 
     def isFilepickerURL(self, val):
         return bool(self.filepicker_url_regex.match(val))
