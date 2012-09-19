@@ -18,7 +18,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'db.sql',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
@@ -26,6 +26,9 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+#Your Filepicker.io API key goes here. To get an api key, go to https://filepicker.io
+FILEPICKER_API_KEY = 'REPLACE_ME'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -92,8 +95,6 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'iq0i&txhbz=yi^0zq342r%(5%a1o5v-3+idqt$m%4yj3o#*qt^'
 
-FILEPICKER_API_KEY = 'REPLACE_ME'
-
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -102,6 +103,7 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = {
+    #This context processor allows for convenient insertion of the filepicker.io javascript library
     'django_filepicker.context_processors.js'
 }
 
@@ -111,7 +113,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    #This middleware takes all filepicker urls and puts the data into request.FILES
+    #This optional middleware takes all filepicker urls and puts the data into request.FILES
     'django_filepicker.middleware.URLFileMapperMiddleware',
 )
 

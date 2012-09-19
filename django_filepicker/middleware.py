@@ -2,6 +2,11 @@ import re
 import urllib2
 from django.core.files import File
 
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+
 
 class URLFileMapperMiddleware(object):
     """
@@ -22,14 +27,14 @@ class URLFileMapperMiddleware(object):
         #Iterate over GET or POST data, search for filepicker.io urls
         for key, val in request.POST.items():
             if self.isFilepickerURL(val):
-                    url_fp = urllib2.urlopen(val)
-                    disposition = url_fp.info().getheader('Content-Disposition')
-                    if disposition:
-                        name = disposition.rpartition("filename=")[2].strip('" ')
-                    else:
-                        name = "fp-file"
+                url_fp = urllib2.urlopen(val)
+                disposition = url_fp.info().getheader('Content-Disposition')
+                if disposition:
+                    name = disposition.rpartition("filename=")[2].strip('" ')
+                else:
+                    name = "fp-file"
 
-                    request.FILES[key] = File(val, name=name)
+                request.FILES[key] = File(StringIO(url_fp.read()), name=name)
 
     def isFilepickerURL(self, val):
         return bool(self.filepicker_url_regex.match(val))

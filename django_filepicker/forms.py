@@ -4,8 +4,10 @@ from django.conf import settings
 
 import widgets
 import urllib2
-
-#Expects FILEPICKER_API_KEY to be set in settings
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
 
 
 class FPFileField(forms.FileField):
@@ -13,12 +15,25 @@ class FPFileField(forms.FileField):
     default_mimetypes = "*/*"
 
     def __init__(self, *args, **kwargs):
-        self.apikey = kwargs.pop('apikey', settings.FILEPICKER_API_KEY)
-        self.multiple = kwargs.pop('multiple', False)
-        self.persist = kwargs.pop('persist', False)
+        """
+        Initializes the Filepicker file field.
+        Valid arguments:
+        * apikey. This string is required if it isn't set as settings.FILEPICKER_API_KEY
+        * mimetypes. Optional, the allowed mimetypes for files. Defaults to "*/*" (all files)
+        """
+
+        if 'apikey' in kwargs:
+            self.apikey = kwargs.pop('apikey')
+        elif hasattr(settings, 'FILEPICKER_API_KEY'):
+            self.apikey = settings.FILEPICKER_API_KEY
+        else:
+            raise Exception("Cannot find filepicker.io api key." +
+            " Be sure to either pass as the apikey argument when creating the FPFileField," +
+            " or set it as settings.FILEPICKER_API_KEY. To get a key, go to https://filepicker.io")
 
         self.mimetypes = kwargs.pop('mimetypes', self.default_mimetypes)
         if not isinstance(self.mimetypes, basestring):
+            #If mimetypes is an array, form a csv string
             try:
                 self.mimetypes = ",".join(iter(self.mimetypes))
             except TypeError:
@@ -32,14 +47,10 @@ class FPFileField(forms.FileField):
                 'data-fp-mimetypes': self.mimetypes,
                 }
 
-        if self.multiple:
-            attrs['data-fp-multiple'] = "true"
-        if self.persist:
-            attrs['data-fp-persist'] = "true"
-
         return attrs
 
     def to_python(self, data):
+        """Takes the url in data and creates a File object"""
         if not data:
             return None
 
@@ -52,7 +63,7 @@ class FPFileField(forms.FileField):
             name = "fp-file"
         size = long(url_fp.info().getheader('Content-Length', 0))
 
-        fp = File(url_fp, name=name)
+        fp = File(StringIO(url_fp.read()), name=name)
         fp.size = size
 
         return fp

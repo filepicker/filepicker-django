@@ -5,6 +5,6 @@ from django.conf.urls.defaults import patterns, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
+    # The demo page:
     url(r'^$', 'demo.filepicker_demo.views.home', name='home'),
 )
