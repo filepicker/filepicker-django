@@ -21,6 +21,8 @@ To see how all the pieces come together, see the example code in demo/, which yo
         #Save will read the data and upload it to the location defined in TestModel
         form.save()
 
+Be sure to also provide your Filepicker.io api key, either as a parameter to the FPFileField or in settings.py as `FILEPICKER_API_KEY`
+
 ##Components
 ###Models
 The filepicker django library defines the `FPFileField` model field so you can get all the benefits of using Filepicker.io as a drop-in replacement for the standard django `FileField`. No need to change any of your view logic.
