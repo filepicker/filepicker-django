@@ -20,6 +20,7 @@ class FPFileField(forms.FileField):
         Valid arguments:
         * apikey. This string is required if it isn't set as settings.FILEPICKER_API_KEY
         * mimetypes. Optional, the allowed mimetypes for files. Defaults to "*/*" (all files)
+        * services. Optional, the allowed services to pull from.
         """
 
         if 'apikey' in kwargs:
@@ -39,6 +40,8 @@ class FPFileField(forms.FileField):
             except TypeError:
                 self.mimetypes = str(self.mimetypes)
 
+        self.services = kwargs.pop('services', getattr(settings, 'FILEPICKER_SERVICES', None))
+
         super(FPFileField, self).__init__(*args, **kwargs)
 
     def widget_attrs(self, widget):
@@ -47,8 +50,8 @@ class FPFileField(forms.FileField):
                 'data-fp-mimetypes': self.mimetypes,
                 }
 
-        if hasattr(settings, 'FILEPICKER_SERVICES'):
-            attrs['data-fp-option-services'] = settings.FILEPICKER_SERVICES
+        if self.services:
+            attrs['data-fp-option-services'] = self.services
 
         return attrs
 
