@@ -13,9 +13,11 @@ class FPFileField(models.FileField):
         Valid arguments:
         * apikey. This string is required if it isn't set as settings.FILEPICKER_API_KEY
         * mimetypes. Optional, the allowed mimetypes for files. Defaults to "*/*" (all files)
+        * services. Optional, the allowed services to pull from.
         """
         self.apikey = kwargs.pop("apikey", None)
         self.mimetypes = kwargs.pop("mimetypes", None)
+        self.services = kwargs.pop("services", None)
 
         super(FPFileField, self).__init__(*args, **kwargs)
 
@@ -30,6 +32,8 @@ class FPFileField(models.FileField):
             defaults['apikey'] = self.apikey
         if self.mimetypes:
             defaults['mimetypes'] = self.mimetypes
+        if self.services:
+            defaults['services'] = self.services
 
         defaults.update(kwargs)
         return super(FPFileField, self).formfield(**defaults)
