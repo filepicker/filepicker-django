@@ -47,6 +47,9 @@ class FPFileField(forms.FileField):
                 'data-fp-mimetypes': self.mimetypes,
                 }
 
+        if hasattr(settings, 'FILEPICKER_SERVICES'):
+            attrs['data-fp-option-services'] = settings.FILEPICKER_SERVICES
+
         return attrs
 
     def to_python(self, data):
