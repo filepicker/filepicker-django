@@ -54,7 +54,7 @@ class FPFileField(forms.FileField):
 
     def to_python(self, data):
         """Takes the url in data and creates a File object"""
-        if not data:
+        if not data or not data.startswith('http'):
             return None
 
         url_fp = urllib2.urlopen(data)
