@@ -1,0 +1,4 @@
+Version 0.1 - First release
+ - Basic hooks via FPFileField in models and forms
+ - Filepicker widget
+ - Filepicker middleware

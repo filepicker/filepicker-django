@@ -2,3 +2,4 @@
 *.pyc
 demo/media/uploads/
 demo/db.sql
+dist/

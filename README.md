@@ -3,6 +3,9 @@ django-filepicker
 
 A django plugin to make integrating with Filepicker.io even easier
 
+##Installation
+`pip install django-filepicker`
+
 ##Demo
 To see how all the pieces come together, see the example code in demo/, which you can run with the standard
 `python manage.py runserver` command
