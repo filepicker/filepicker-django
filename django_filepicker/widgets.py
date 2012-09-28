@@ -1,6 +1,11 @@
+from django.conf import settings
 from django.forms import widgets
 
-INPUT_TYPE = 'filepicker-dragdrop'
+
+if hasattr(settings, 'FILEPICKER_INPUT_TYPE'):
+    INPUT_TYPE = settings.FILEPICKER_INPUT_TYPE
+else:
+    INPUT_TYPE = 'filepicker-dragdrop'
 
 
 class FPFileWidget(widgets.Input):
