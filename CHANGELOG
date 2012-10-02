@@ -1,5 +1,11 @@
+Version 0.1.2 - Oct 2 2012 - Patched middleware, FPUrlField
+ - Added middleware support for multiple files
+ - Added FPUrlField
+
+Version 0.1.1 - Sept 30 2012 - Updated widgets for services field
+ - Added a "services" attribute to the FPFileField
+
 Version 0.1 - First release
  - Basic hooks via FPFileField in models and forms
  - Filepicker widget
  - Filepicker middleware
-Version 0.1.1 - Updated widgets for services field

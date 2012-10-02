@@ -31,7 +31,7 @@ Be sure to also provide your Filepicker.io api key, either as a parameter to the
 The filepicker django library defines the `FPFileField` model field so you can get all the benefits of using Filepicker.io as a drop-in replacement for the standard django `FileField`. No need to change any of your view logic.
 
 ###Forms
-Similarly with the `FPFileField` for models, the filepicker django library defines a `FPFileField` for forms as well, that likewise serves as a drop-in replacement for the standard django `FileField`
+Similarly with the `FPFileField` for models, the filepicker django library defines a `FPFileField` for forms as well, that likewise serves as a drop-in replacement for the standard django `FileField`. There is also the `FPUrlField` if you want to store the Filepicker.io URL instead
 
 ###Middleware
 Also included is a middleware library that will take any Filepicker.io urls passed to the server, download the contents, and place the result in request.FILES. This way, you can keep your backend code for handling file uploads the same as before while adding all the front-end magic that Filepicker.io provides
