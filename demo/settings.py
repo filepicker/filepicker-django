@@ -102,11 +102,6 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = {
-    #This context processor allows for convenient insertion of the filepicker.io javascript library
-    'django_filepicker.context_processors.js'
-}
-
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

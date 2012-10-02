@@ -1,9 +1,5 @@
 from django.utils.safestring import mark_safe
-
-#JS_URL is the url to the filepicker.io javascript library
-JS_VERSION = 0
-JS_URL = "//api.filepicker.io/v%d/filepicker.js" % (JS_VERSION)
-
+from .widgets import JS_URL
 
 def js(request):
     #Defines a {{FILEPICKER_JS}} tag that inserts the filepicker javascript library

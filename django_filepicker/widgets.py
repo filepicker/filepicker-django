@@ -1,6 +1,9 @@
 from django.conf import settings
 from django.forms import widgets
 
+#JS_URL is the url to the filepicker.io javascript library
+JS_VERSION = 0
+JS_URL = "//api.filepicker.io/v%d/filepicker.js" % (JS_VERSION)
 
 if hasattr(settings, 'FILEPICKER_INPUT_TYPE'):
     INPUT_TYPE = settings.FILEPICKER_INPUT_TYPE
@@ -20,3 +23,6 @@ class FPFileWidget(widgets.Input):
                     data, files, name)
 
         return data
+
+    class Media:
+        js = (JS_URL,)
