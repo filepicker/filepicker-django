@@ -2,7 +2,7 @@ from django import forms
 from django.core.files import File
 from django.conf import settings
 
-import widgets
+from .widgets import FPFileWidget
 import urllib2
 try:
     from cStringIO import StringIO
@@ -10,8 +10,8 @@ except ImportError:
     from StringIO import StringIO
 
 
-class FPFileField(forms.FileField):
-    widget = widgets.FPFileWidget
+class FPUrlField(forms.URLField):
+    widget = FPFileWidget
     default_mimetypes = "*/*"
 
     def __init__(self, *args, **kwargs):
@@ -42,7 +42,7 @@ class FPFileField(forms.FileField):
 
         self.services = kwargs.pop('services', getattr(settings, 'FILEPICKER_SERVICES', None))
 
-        super(FPFileField, self).__init__(*args, **kwargs)
+        super(FPUrlField, self).__init__(*args, **kwargs)
 
     def widget_attrs(self, widget):
         attrs = {
@@ -55,6 +55,8 @@ class FPFileField(forms.FileField):
 
         return attrs
 
+
+class FPFileField(FPUrlField, forms.FileField):
     def to_python(self, data):
         """Takes the url in data and creates a File object"""
         if not data or not data.startswith('http'):
