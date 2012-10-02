@@ -27,14 +27,20 @@ class URLFileMapperMiddleware(object):
         #Iterate over GET or POST data, search for filepicker.io urls
         for key, val in request.POST.items():
             if self.isFilepickerURL(val):
-                url_fp = urllib2.urlopen(val)
-                disposition = url_fp.info().getheader('Content-Disposition')
-                if disposition:
-                    name = disposition.rpartition("filename=")[2].strip('" ')
-                else:
-                    name = "fp-file"
+                splits = val.split(",")
+                for url in splits:
+                    url_fp = urllib2.urlopen(url)
+                    disposition = url_fp.info().getheader('Content-Disposition')
+                    if disposition:
+                        name = disposition.rpartition("filename=")[2].strip('" ')
+                    else:
+                        name = "fp-file"
 
-                request.FILES[key] = File(StringIO(url_fp.read()), name=name)
+                    fp = File(StringIO(url_fp.read()), name=name)
+                    if key in request.FILES:
+                        request.FILES.setlist(key, list(request.FILES.getlist(key) + [fp]))
+                    else:
+                        request.FILES[key] = fp
 
     def isFilepickerURL(self, val):
         return bool(self.filepicker_url_regex.match(val))

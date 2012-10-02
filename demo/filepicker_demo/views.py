@@ -22,8 +22,8 @@ def home(request):
             print fpfile.read()
 
             message = "Save successful. URL for %s: %s" % (fpfile.name, request.POST['fpfile'])
-
-        message = "Invalid form"
+        else:
+            message = "Invalid form"
     else:
         form = models.TestModelForm()
 

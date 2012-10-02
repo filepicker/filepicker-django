@@ -10,13 +10,13 @@ except ImportError:
     from StringIO import StringIO
 
 
-class FPUrlField(forms.URLField):
+class FPFieldMixin():
     widget = FPFileWidget
     default_mimetypes = "*/*"
 
-    def __init__(self, *args, **kwargs):
+    def initialize(self, *args, **kwargs):
         """
-        Initializes the Filepicker file field.
+        Initializes the Filepicker field.
         Valid arguments:
         * apikey. This string is required if it isn't set as settings.FILEPICKER_API_KEY
         * mimetypes. Optional, the allowed mimetypes for files. Defaults to "*/*" (all files)
@@ -42,8 +42,6 @@ class FPUrlField(forms.URLField):
 
         self.services = kwargs.pop('services', getattr(settings, 'FILEPICKER_SERVICES', None))
 
-        super(FPUrlField, self).__init__(*args, **kwargs)
-
     def widget_attrs(self, widget):
         attrs = {
                 'data-fp-apikey': self.apikey,
@@ -56,7 +54,34 @@ class FPUrlField(forms.URLField):
         return attrs
 
 
-class FPFileField(FPUrlField, forms.FileField):
+class FPUrlField(FPFieldMixin, forms.URLField):
+    widget = FPFileWidget
+    default_mimetypes = "*/*"
+
+    def __init__(self, *args, **kwargs):
+        """
+        Initializes the Filepicker url field.
+        Valid arguments:
+        * apikey. This string is required if it isn't set as settings.FILEPICKER_API_KEY
+        * mimetypes. Optional, the allowed mimetypes for files. Defaults to "*/*" (all files)
+        * services. Optional, the allowed services to pull from.
+        """
+        self.initialize(*args, **kwargs)
+        super(FPUrlField, self).__init__(*args, **kwargs)
+
+
+class FPFileField(FPFieldMixin, forms.FileField):
+    def __init__(self, *args, **kwargs):
+        """
+        Initializes the Filepicker url field.
+        Valid arguments:
+        * apikey. This string is required if it isn't set as settings.FILEPICKER_API_KEY
+        * mimetypes. Optional, the allowed mimetypes for files. Defaults to "*/*" (all files)
+        * services. Optional, the allowed services to pull from.
+        """
+        self.initialize(*args, **kwargs)
+        super(FPFileField, self).__init__(*args, **kwargs)
+
     def to_python(self, data):
         """Takes the url in data and creates a File object"""
         if not data or not data.startswith('http'):
