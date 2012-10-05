@@ -14,7 +14,7 @@ class FPFieldMixin():
     widget = FPFileWidget
     default_mimetypes = "*/*"
 
-    def initialize(self, *args, **kwargs):
+    def initialize(self, apikey=None, mimetypes=None, services=None):
         """
         Initializes the Filepicker field.
         Valid arguments:
@@ -23,16 +23,13 @@ class FPFieldMixin():
         * services. Optional, the allowed services to pull from.
         """
 
-        if 'apikey' in kwargs:
-            self.apikey = kwargs.pop('apikey')
-        elif hasattr(settings, 'FILEPICKER_API_KEY'):
-            self.apikey = settings.FILEPICKER_API_KEY
-        else:
+        self.apikey = apikey or getattr(settings, 'FILEPICKER_API_KEY', None)
+        if not self.apikey:
             raise Exception("Cannot find filepicker.io api key." +
             " Be sure to either pass as the apikey argument when creating the FPFileField," +
             " or set it as settings.FILEPICKER_API_KEY. To get a key, go to https://filepicker.io")
 
-        self.mimetypes = kwargs.pop('mimetypes', self.default_mimetypes)
+        self.mimetypes = mimetypes or self.default_mimetypes
         if not isinstance(self.mimetypes, basestring):
             #If mimetypes is an array, form a csv string
             try:
@@ -40,7 +37,7 @@ class FPFieldMixin():
             except TypeError:
                 self.mimetypes = str(self.mimetypes)
 
-        self.services = kwargs.pop('services', getattr(settings, 'FILEPICKER_SERVICES', None))
+        self.services = services or getattr(settings, 'FILEPICKER_SERVICES', None)
 
     def widget_attrs(self, widget):
         attrs = {
@@ -66,7 +63,11 @@ class FPUrlField(FPFieldMixin, forms.URLField):
         * mimetypes. Optional, the allowed mimetypes for files. Defaults to "*/*" (all files)
         * services. Optional, the allowed services to pull from.
         """
-        self.initialize(*args, **kwargs)
+        self.initialize(
+            apikey=kwargs.pop('apikey', None),
+            mimetypes=kwargs.pop('mimetypes', None),
+            services=kwargs.pop('services', None),
+        )
         super(FPUrlField, self).__init__(*args, **kwargs)
 
 
@@ -79,7 +80,11 @@ class FPFileField(FPFieldMixin, forms.FileField):
         * mimetypes. Optional, the allowed mimetypes for files. Defaults to "*/*" (all files)
         * services. Optional, the allowed services to pull from.
         """
-        self.initialize(*args, **kwargs)
+        self.initialize(
+            apikey=kwargs.pop('apikey', None),
+            mimetypes=kwargs.pop('mimetypes', None),
+            services=kwargs.pop('services', None),
+        )
         super(FPFileField, self).__init__(*args, **kwargs)
 
     def to_python(self, data):
