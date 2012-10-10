@@ -1,0 +1,28 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-05 17:38+0200\n"
+"PO-Revision-Date: 2012-10-05 17:30+0200\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: models.py:8
+msgid "A File selected using Filepicker.io"
+msgstr "Über Filepicker.io ausgewählte Datei"
+
+#: widgets.py:24
+msgid "Pick File"
+msgstr "Datei auswählen"
+
+#: widgets.py:25
+msgid "Or drop files here"
+msgstr "oder hier fallenlassen"
