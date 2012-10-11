@@ -1,6 +1,6 @@
 import re
 import urllib
-from os.path import basename
+import os
 
 from django.core.files import File
 
@@ -19,10 +19,46 @@ class FilepickerFile(object):
         Downloads the file from filepicker.io and returns a
         Django File wrapper object
         '''
-        filename, header = urllib.urlretrieve(self.url)
-        name = basename(filename)
+        # clean up any old downloads that are still hanging around
+        self.cleanup()
+
+        # The temporary file will be created in a directory set by the
+        # environment (TEMP_DIR, TEMP or TMP)
+        self.filename, header = urllib.urlretrieve(self.url)
+        name = os.path.basename(self.filename)
         disposition = header.get('Content-Disposition')
         if disposition:
             name = disposition.rpartition("filename=")[2].strip('" ')
 
-        return File(open(filename, 'r'), name=name)
+        self.tempfile = open(self.filename, 'r')
+        return File(self.tempfile, name=name)
+
+    def cleanup(self):
+        '''
+        Removes any downloaded objects and closes open files.
+        '''
+        if hasattr(self, 'tempfile'):
+            self.tempfile.close()
+            delattr(self, 'tempfile')
+
+        if hasattr(self, 'filename'):
+            # the file might have been moved in the meantime so
+            # check first
+            if os.path.exists(self.filename):
+                os.remove(self.filename)
+            delattr(self, 'filename')
+
+    def __enter__(self):
+        '''
+        Allow FilepickerFile to be used as a context manager as such:
+
+            with FilepickerFile(url) as f:
+                model.field.save(f.name, f.)
+        '''
+        return self.get_file()
+
+    def __exit__(self, *args):
+        self.cleanup()
+
+    def __del__(self):
+        self.cleanup()
