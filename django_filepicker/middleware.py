@@ -1,11 +1,4 @@
-import re
-import urllib2
-from django.core.files import File
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
+from .utils import FilepickerFile
 
 
 class URLFileMapperMiddleware(object):
@@ -20,27 +13,18 @@ class URLFileMapperMiddleware(object):
 
     Note that the original filepicker.io url will still be available in POST if you need it.
     """
-    filepicker_url_regex = re.compile(
-            r'https?:\/\/www.filepicker.io\/api\/file\/.*')
-
     def process_request(self, request):
         #Iterate over GET or POST data, search for filepicker.io urls
         for key, val in request.POST.items():
-            if self.isFilepickerURL(val):
+            try:
+                fp = FilepickerFile(val)
+            except ValueError:
+                pass
+            else:
                 splits = val.split(",")
                 for url in splits:
-                    url_fp = urllib2.urlopen(url)
-                    disposition = url_fp.info().getheader('Content-Disposition')
-                    if disposition:
-                        name = disposition.rpartition("filename=")[2].strip('" ')
-                    else:
-                        name = "fp-file"
-
-                    fp = File(StringIO(url_fp.read()), name=name)
                     if key in request.FILES:
-                        request.FILES.setlist(key, list(request.FILES.getlist(key) + [fp]))
+                        request.FILES.setlist(key, list(
+                            request.FILES.getlist(key) + [fp.get_file()]))
                     else:
-                        request.FILES[key] = fp
-
-    def isFilepickerURL(self, val):
-        return bool(self.filepicker_url_regex.match(val))
+                        request.FILES[key] = fp.get_file()
