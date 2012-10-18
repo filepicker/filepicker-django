@@ -2,14 +2,10 @@ from django.conf import settings
 from django.forms import widgets
 
 #JS_URL is the url to the filepicker.io javascript library
-JS_VERSION = 1
+JS_VERSION = getattr(settings, "FILEPICKER_JS_VERSION", 0)
 JS_URL = "//api.filepicker.io/v%d/filepicker.js" % (JS_VERSION)
 
-if hasattr(settings, 'FILEPICKER_INPUT_TYPE'):
-    INPUT_TYPE = settings.FILEPICKER_INPUT_TYPE
-else:
-    INPUT_TYPE = 'filepicker-dragdrop'
-
+INPUT_TYPE = getattr(settings, "FILEPICKER_INPUT_TYPE", "filepicker-dragdrop")
 
 class FPFileWidget(widgets.Input):
     input_type = INPUT_TYPE
