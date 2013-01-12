@@ -1,10 +1,10 @@
 from distutils.core import setup
 setup(name='django-filepicker',
-      version='0.1.2',
+      version='0.1.3',
       description='Official Filepicker Django Library',
       author='CloudTop, Inc',
       author_email='contact@filepicker.io',
       url='http://developers.filepicker.io/',
       packages=['django_filepicker'],
-      install_requires=['django']
+      install_requires=['django >= 1.3']
       )

@@ -29,6 +29,9 @@ class FilepickerFile(object):
         disposition = header.get('Content-Disposition')
         if disposition:
             name = disposition.rpartition("filename=")[2].strip('" ')
+        filename = header.get('X-File-Name')
+        if filename:
+            name = filename
 
         self.tempfile = open(self.filename, 'r')
         return File(self.tempfile, name=name)

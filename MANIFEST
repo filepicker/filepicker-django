@@ -6,4 +6,5 @@ django_filepicker/context_processors.py
 django_filepicker/forms.py
 django_filepicker/middleware.py
 django_filepicker/models.py
+django_filepicker/utils.py
 django_filepicker/widgets.py
