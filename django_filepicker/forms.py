@@ -94,11 +94,15 @@ class FPFileField(FPFieldMixin, forms.FileField):
 
         url_fp = urllib2.urlopen(data)
 
+        name = "fp-file"
         disposition = url_fp.info().getheader('Content-Disposition')
         if disposition:
             name = disposition.rpartition("filename=")[2].strip('" ')
-        else:
-            name = "fp-file"
+
+        filename = url_fp.info().getheader('X-File-Name')
+        if filename:
+            name = filename
+
         size = long(url_fp.info().getheader('Content-Length', 0))
 
         fp = File(StringIO(url_fp.read()), name=name)
