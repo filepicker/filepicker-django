@@ -38,6 +38,7 @@ class FPFieldMixin():
                 self.mimetypes = str(self.mimetypes)
 
         self.services = services or getattr(settings, 'FILEPICKER_SERVICES', None)
+        self.additional_params = getattr(settings, 'FILEPICKER_ADDITIONAL_PARAMS', None)
 
     def widget_attrs(self, widget):
         attrs = {
@@ -47,6 +48,9 @@ class FPFieldMixin():
 
         if self.services:
             attrs['data-fp-option-services'] = self.services
+
+        if self.additional_params:
+            attrs = dict(attrs.items() + self.additional_params.items())            
 
         return attrs
 
