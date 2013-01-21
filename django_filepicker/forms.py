@@ -14,13 +14,14 @@ class FPFieldMixin():
     widget = FPFileWidget
     default_mimetypes = "*/*"
 
-    def initialize(self, apikey=None, mimetypes=None, services=None):
+    def initialize(self, apikey=None, mimetypes=None, services=None, additional_params=None):
         """
         Initializes the Filepicker field.
         Valid arguments:
         * apikey. This string is required if it isn't set as settings.FILEPICKER_API_KEY
         * mimetypes. Optional, the allowed mimetypes for files. Defaults to "*/*" (all files)
         * services. Optional, the allowed services to pull from.
+        * additional_params. Optional, additional parameters to be applied.
         """
 
         self.apikey = apikey or getattr(settings, 'FILEPICKER_API_KEY', None)
@@ -38,7 +39,7 @@ class FPFieldMixin():
                 self.mimetypes = str(self.mimetypes)
 
         self.services = services or getattr(settings, 'FILEPICKER_SERVICES', None)
-        self.additional_params = getattr(settings, 'FILEPICKER_ADDITIONAL_PARAMS', None)
+        self.additional_params = additional_params or getattr(settings, 'FILEPICKER_ADDITIONAL_PARAMS', None)
 
     def widget_attrs(self, widget):
         attrs = {
@@ -66,11 +67,13 @@ class FPUrlField(FPFieldMixin, forms.URLField):
         * apikey. This string is required if it isn't set as settings.FILEPICKER_API_KEY
         * mimetypes. Optional, the allowed mimetypes for files. Defaults to "*/*" (all files)
         * services. Optional, the allowed services to pull from.
+        * additional_params. Optional, additional parameters to be applied.
         """
         self.initialize(
             apikey=kwargs.pop('apikey', None),
             mimetypes=kwargs.pop('mimetypes', None),
             services=kwargs.pop('services', None),
+            additional_params=kwargs.pop('additional_params', None),
         )
         super(FPUrlField, self).__init__(*args, **kwargs)
 
@@ -83,11 +86,13 @@ class FPFileField(FPFieldMixin, forms.FileField):
         * apikey. This string is required if it isn't set as settings.FILEPICKER_API_KEY
         * mimetypes. Optional, the allowed mimetypes for files. Defaults to "*/*" (all files)
         * services. Optional, the allowed services to pull from.
+        * additional_params. Optional, additional parameters to be applied.
         """
         self.initialize(
             apikey=kwargs.pop('apikey', None),
             mimetypes=kwargs.pop('mimetypes', None),
             services=kwargs.pop('services', None),
+            additional_params=kwargs.pop('additional_params', None),
         )
         super(FPFileField, self).__init__(*args, **kwargs)
 
