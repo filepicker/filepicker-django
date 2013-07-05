@@ -41,3 +41,10 @@ class FPFileField(models.FileField):
 
         defaults.update(kwargs)
         return super(FPFileField, self).formfield(**defaults)
+        
+try:
+    # For South. See: http://south.readthedocs.org/en/latest/customfields.html#extending-introspection
+    from south.modelsinspector import add_introspection_rules
+    add_introspection_rules([], ["django_filepicker\.models\.FPFileField"])
+except ImportError:
+    pass
