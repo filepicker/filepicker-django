@@ -1,4 +1,4 @@
-Version 0.1.4 - Aug 27 2013 - Added South introspection rule
+Version 0.1.5 - Aug 27 2013 - Added South introspection rule
 
 Version 0.1.2 - Oct 2 2012 - Patched middleware, FPUrlField
  - Added middleware support for multiple files
