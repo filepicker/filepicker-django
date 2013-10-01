@@ -4,7 +4,33 @@ django-filepicker
 A django plugin to make integrating with Filepicker.io even easier
 
 ##Installation
-`pip install django-filepicker`
+
+  1.  Install the python package:
+
+          pip install django-filepicker
+
+  2.  Add your file picker api key to your settings.py file. You api key can be
+  found in the [developer portal](https://developers.inkfilepicker.com/apps/).
+
+          FILEPICKER_API_KEY = <your api key>
+
+  3.  Configure your media root.
+
+          CWD = os.getcwd()
+          MEDIA_ROOT = os.path.join(CWD, 'media')
+
+  3.  Add a filepicker field to your model and set the upload_to value.
+
+          fpfile = django_filepicker.models.FPFileField(upload_to='uploads')
+
+  4.  Modify your view to accept the uploaded files along with the post data.
+
+          form = models.TestModelForm(request.POST, request.FILES)
+          if form.is_valid():
+              #Save will read the data and upload it to the location
+              # defined in TestModel
+              form.save()
+
 
 ##Demo
 To see how all the pieces come together, see the example code in demo/, which you can run with the standard
