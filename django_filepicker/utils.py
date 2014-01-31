@@ -33,8 +33,8 @@ class FilepickerFile(object):
         query_params = {}
         for field in ('policy','signature'):
             longfield = 'data-fp-{0}'.format(field)
-            if longfield in self.additional_params:
-                query_params[field] = self.additional_params[longfield]
+            if longfield in additional_params:
+                query_params[field] = additional_params[longfield]
         # Append the fields as GET query parameters to the URL in data.
         query_params = urllib.urlencode(query_params)
         url = self.url
