@@ -2,6 +2,7 @@ from django import forms
 from django.core.files import File
 from django.conf import settings
 
+from .utils import FilepickerFile
 from .widgets import FPFileWidget
 import urllib2
 try:
@@ -98,23 +99,14 @@ class FPFileField(FPFieldMixin, forms.FileField):
 
     def to_python(self, data):
         """Takes the url in data and creates a File object"""
-        if not data or not data.startswith('http'):
-            return None
-
-        url_fp = urllib2.urlopen(data)
-
-        name = "fp-file"
-        disposition = url_fp.info().getheader('Content-Disposition')
-        if disposition:
-            name = disposition.rpartition("filename=")[2].strip('" ')
-
-        filename = url_fp.info().getheader('X-File-Name')
-        if filename:
-            name = filename
-
-        size = long(url_fp.info().getheader('Content-Length', 0))
-
-        fp = File(StringIO(url_fp.read()), name=name)
-        fp.size = size
-
-        return fp
+        try:
+            fpf = FilepickerFile(data)
+        except ValueError, e:
+            if 'Not a filepicker.io URL' in str(e):
+                # Return None for invalid URLs
+                return None
+            else:
+                # Pass the buck
+                raise e
+        else:
+            return fpf.get_file(self.additional_params)

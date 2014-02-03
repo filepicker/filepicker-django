@@ -14,17 +14,36 @@ class FilepickerFile(object):
             raise ValueError('Not a filepicker.io URL: %s' % url)
         self.url = url
 
-    def get_file(self):
+    def get_file(self, additional_params={}):
         '''
         Downloads the file from filepicker.io and returns a
-        Django File wrapper object
+        Django File wrapper object.
+        additional_params should include key/values such as:
+        {
+          'data-fp-signature': HEXDIGEST,
+          'data-fp-policy': HEXDIGEST,
+        }
+        (in other words, parameters should look like additional_params
+        of the models)
         '''
         # clean up any old downloads that are still hanging around
         self.cleanup()
 
+        # Fetch any fields possibly required for fetching files for reading.
+        query_params = {}
+        for field in ('policy','signature'):
+            longfield = 'data-fp-{0}'.format(field)
+            if longfield in additional_params:
+                query_params[field] = additional_params[longfield]
+        # Append the fields as GET query parameters to the URL in data.
+        query_params = urllib.urlencode(query_params)
+        url = self.url
+        if query_params:
+            url = url + '?' + query_params
+
         # The temporary file will be created in a directory set by the
         # environment (TEMP_DIR, TEMP or TMP)
-        self.filename, header = urllib.urlretrieve(self.url)
+        self.filename, header = urllib.urlretrieve(url)
         name = os.path.basename(self.filename)
         disposition = header.get('Content-Disposition')
         if disposition:
