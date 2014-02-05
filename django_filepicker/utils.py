@@ -5,7 +5,7 @@ import os
 from django.core.files import File
 
 
-class FilepickerFile(object):
+class FilepickerFile(File):
     filepicker_url_regex = re.compile(
             r'https?:\/\/www.filepicker.io\/api\/file\/.*')
 
@@ -52,16 +52,20 @@ class FilepickerFile(object):
         if filename:
             name = filename
 
-        self.tempfile = open(self.filename, 'r')
-        return File(self.tempfile, name=name)
+        tempfile = open(self.filename, 'r')
+        # initialize File components of this object
+        super(FilepickerFile, self).__init__(tempfile,name=name)
+        return self
 
     def cleanup(self):
         '''
         Removes any downloaded objects and closes open files.
         '''
-        if hasattr(self, 'tempfile'):
-            self.tempfile.close()
-            delattr(self, 'tempfile')
+        # self.file comes from Django File
+        if hasattr(self, 'file'):
+            if not self.file.closed:
+                self.file.close()
+            delattr(self, 'file')
 
         if hasattr(self, 'filename'):
             # the file might have been moved in the meantime so
@@ -77,9 +81,13 @@ class FilepickerFile(object):
             with FilepickerFile(url) as f:
                 model.field.save(f.name, f.)
         '''
-        return self.get_file()
+        self.get_file()
+        # call Django's File context manager
+        return super(FilepickerFile, self).__enter__()
 
     def __exit__(self, *args):
+        # call Django's File context manager
+        super(FilepickerFile, self).__exit__(*args)
         self.cleanup()
 
     def __del__(self):
