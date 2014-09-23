@@ -1,6 +1,7 @@
 import re
-import urllib
 import os
+import requests
+import tempfile
 
 from django.core.files import File
 
@@ -31,19 +32,19 @@ class FilepickerFile(File):
 
         # Fetch any fields possibly required for fetching files for reading.
         query_params = {}
-        for field in ('policy','signature'):
-            longfield = 'data-fp-{0}'.format(field)
-            if longfield in additional_params:
-                query_params[field] = additional_params[longfield]
-        # Append the fields as GET query parameters to the URL in data.
-        query_params = urllib.urlencode(query_params)
-        url = self.url
-        if query_params:
-            url = url + '?' + query_params
 
-        # The temporary file will be created in a directory set by the
-        # environment (TEMP_DIR, TEMP or TMP)
-        self.filename, header = urllib.urlretrieve(url)
+        if additional_params:
+            for field in ('policy','signature'):
+                longfield = 'data-fp-{0}'.format(field)
+                if longfield in additional_params:
+                    query_params[field] = additional_params[longfield]
+        # Append the fields as GET query parameters to the URL in data.
+
+        r = requests.get(self.url, params=query_params, stream=True)
+        self.filename = self.url.split('/')[-1]
+        header = r.headers
+        print self.filename
+
         name = os.path.basename(self.filename)
         disposition = header.get('Content-Disposition')
         if disposition:
@@ -52,9 +53,18 @@ class FilepickerFile(File):
         if filename:
             name = filename
 
-        tempfile = open(self.filename, 'r')
+        # Create a temporary file to save to it later
+        try:
+            tmp = tempfile.NamedTemporaryFile(mode='w+b')
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk:
+                    tmp.write(chunk) # Write the chunk
+                    tmp.flush()
+        except IOError:
+            pass
+
         # initialize File components of this object
-        super(FilepickerFile, self).__init__(tempfile,name=name)
+        super(FilepickerFile, self).__init__(tmp,name=name)
         return self
 
     def cleanup(self):
