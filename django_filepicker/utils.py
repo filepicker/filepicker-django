@@ -2,7 +2,6 @@ import re
 import os
 import requests
 import tempfile
-
 from django.core.files import File
 
 
@@ -43,7 +42,7 @@ class FilepickerFile(File):
         r = requests.get(self.url, params=query_params, stream=True)
         self.filename = self.url.split('/')[-1]
         header = r.headers
-        print self.filename
+        print(self.filename)
 
         name = os.path.basename(self.filename)
         disposition = header.get('Content-Disposition')
