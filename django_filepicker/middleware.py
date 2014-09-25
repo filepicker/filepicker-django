@@ -1,5 +1,7 @@
-from .utils import FilepickerFile
-
+try:
+    from .utils import FilepickerFile
+except ImportError:
+    from utils import FilepickerFile
 
 class URLFileMapperMiddleware(object):
     """

@@ -7,8 +7,8 @@ try:
     from .utils import FilepickerFile
     from .widgets import FPFileWidget
 except ImportError:
-    from .utils import FilepickerFile
-    from .widgets import FPFileWidget
+    from utils import FilepickerFile
+    from widgets import FPFileWidget
 
 class FPFieldMixin():
     widget = FPFileWidget

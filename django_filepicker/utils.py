@@ -40,7 +40,6 @@ class FilepickerFile(File):
 
         # Append the fields as GET query parameters to the URL in data.
         r = requests.get(self.url, params=query_params, stream=True)
-        self.filename = self.url.split('/')[-1]
         header = r.headers
         disposition = header.get('Content-Disposition')
         if disposition:
