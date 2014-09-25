@@ -15,3 +15,4 @@ class TestModel(models.Model):
 class TestModelForm(forms.ModelForm):
     class Meta:
         model = TestModel
+        fields = ['text','fpfile']
