@@ -1,13 +1,15 @@
 from django.shortcuts import render
 
-import models
-
+try:
+    from . import models
+except ImportError:
+    import models
 
 def home(request):
     message = None
     if request.method == "POST":
-        print "POST parameters: ", request.POST
-        print "Files: ", request.FILES
+        print("POST parameters: ", request.POST)
+        print("Files: ", request.FILES)
 
         #building the form - automagically turns the uploaded fpurl into a File object
         form = models.TestModelForm(request.POST, request.FILES)
@@ -19,7 +21,7 @@ def home(request):
             fpfile = form.cleaned_data['fpfile']
             #Since we already read from it in save(), we'll want to seek to the beginning first
             fpfile.seek(0)
-            print fpfile.read()
+            print(fpfile.read())
 
             message = "Save successful. URL for %s: %s" % (fpfile.name, request.POST['fpfile'])
         else:

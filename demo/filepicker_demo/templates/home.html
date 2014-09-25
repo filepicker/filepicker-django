@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>Filepicker.io Django Library | Demo</title>
+        {{ form.media }}
+    </head>
+    <body>
+        <h1>Filepicker.io Django Library - Demo page</h1>
+        {%if message%}<p>{{message}}</p>{%endif%}
+        <form method="post" action="/">
+            {%csrf_token%}
+            {{ form.as_p }}
+            <p><input type="submit" value="Submit"/></p>
+        </form>
+        <h3>Form code:</h3>
+        <pre>import django_filepicker
+
+class TestModel(models.Model):
+    text = models.CharField(max_length=64)
+    fpfile = django_filepicker.models.FPFileField(upload_to='uploads')
+</pre>
+        <h3>Processing the form</h3>
+        <pre>form = models.TestModelForm(request.POST, request.FILES)
+if form.is_valid():
+    #Save will read the data and upload it to the location defined in TestModel
+    form.save()</pre>
+
+        <hr/>
+        <p>Code available on GitHub at <a href="https://github.com/Filepicker/django-filepicker">https://github.com/Filepicker/django-filepicker</a>.</p>
+        <p>For more info and to get an api key, check out <a href="https://filepicker.io/">Filepicker.io</a>.</p>
+    </body>
+</html>
