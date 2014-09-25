@@ -1,15 +1,14 @@
 from django import forms
 from django.core.files import File
 from django.conf import settings
+from io import StringIO
 
-from .utils import FilepickerFile
-from .widgets import FPFileWidget
-import urllib2
 try:
-    from cStringIO import StringIO
+    from .utils import FilepickerFile
+    from .widgets import FPFileWidget
 except ImportError:
-    from StringIO import StringIO
-
+    from utils import FilepickerFile
+    from widgets import FPFileWidget
 
 class FPFieldMixin():
     widget = FPFileWidget
@@ -32,7 +31,7 @@ class FPFieldMixin():
             " or set it as settings.FILEPICKER_API_KEY. To get a key, go to https://filepicker.io")
 
         self.mimetypes = mimetypes or self.default_mimetypes
-        if not isinstance(self.mimetypes, basestring):
+        if not isinstance(self.mimetypes, str):
             #If mimetypes is an array, form a csv string
             try:
                 self.mimetypes = ",".join(iter(self.mimetypes))
@@ -52,7 +51,7 @@ class FPFieldMixin():
             attrs['data-fp-option-services'] = self.services
 
         if self.additional_params:
-            attrs = dict(attrs.items() + self.additional_params.items())            
+            attrs = dict(list(attrs.items()) + list(self.additional_params.items()))            
 
         return attrs
 
@@ -101,7 +100,7 @@ class FPFileField(FPFieldMixin, forms.FileField):
         """Takes the url in data and creates a File object"""
         try:
             fpf = FilepickerFile(data)
-        except ValueError, e:
+        except ValueError as e:
             if 'Not a filepicker.io URL' in str(e):
                 # Return None for invalid URLs
                 return None
