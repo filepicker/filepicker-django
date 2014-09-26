@@ -1,5 +1,7 @@
-from .utils import FilepickerFile
-
+try:
+    from .utils import FilepickerFile
+except ImportError:
+    from utils import FilepickerFile
 
 class URLFileMapperMiddleware(object):
     """
@@ -15,7 +17,7 @@ class URLFileMapperMiddleware(object):
     """
     def process_request(self, request):
         #Iterate over GET or POST data, search for filepicker.io urls
-        for key, val in request.POST.items():
+        for key, val in list(request.POST.items()):
             try:
                 fp = FilepickerFile(val)
             except ValueError:

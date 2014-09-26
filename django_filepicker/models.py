@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy
 
-import forms
-
+try:
+    from . import forms
+except ImportError:
+    import forms
 
 class FPFileField(models.FileField):
     description = ugettext_lazy("A File selected using Filepicker.io")

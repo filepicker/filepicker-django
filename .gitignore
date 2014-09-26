@@ -3,3 +3,4 @@
 demo/media/uploads/
 demo/db.sql
 dist/
+db.sqlite3
