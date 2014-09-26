@@ -1,3 +1,7 @@
+Version 0.2.1 - Sep 26 2014
+- Updated the demo app
+- Updated .gitignore
+
 Version 0.2.0 - Sep 26 2014
 - Updated the library to work with Python 3
 - Rewritten the demo app to Django 1.7
