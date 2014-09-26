@@ -6,5 +6,5 @@ setup(name='django-filepicker',
       author_email='contact@filepicker.io',
       url='http://developers.filepicker.io/',
       packages=['django_filepicker'],
-      install_requires=['django >= 1.3']
+      install_requires=['django >= 1.3','requests']
       )
