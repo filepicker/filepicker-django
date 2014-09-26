@@ -1,13 +1,20 @@
-Version 0.1.5 - Aug 27 2013 - Added South introspection rule
+Version 0.2.0 - Sep 26 2014
+- Updated the library to work with Python 3
+- Rewritten the demo app to Django 1.7
 
-Version 0.1.2 - Oct 2 2012 - Patched middleware, FPUrlField
+Version 0.1.5 - Aug 27 2013
+- Added South introspection rule
+
+Version 0.1.2 - Oct 2 2012
+- Patched middleware, FPUrlField
  - Added middleware support for multiple files
  - Added FPUrlField
 
-Version 0.1.1 - Sept 30 2012 - Updated widgets for services field
+Version 0.1.1 - Sept 30 2012
+- Updated widgets for services field
  - Added a "services" attribute to the FPFileField
 
-Version 0.1 - First release
+Version 0.1
  - Basic hooks via FPFileField in models and forms
  - Filepicker widget
  - Filepicker middleware
