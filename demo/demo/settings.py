@@ -51,6 +51,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #This optional middleware takes all filepicker urls and puts the data into request.FILES
+    'django_filepicker.middleware.URLFileMapperMiddleware',
 )
 
 ROOT_URLCONF = 'demo.urls'

@@ -4,3 +4,4 @@ demo/media/uploads/
 demo/db.sql
 dist/
 db.sqlite3
+.DS_STORE
