@@ -38,22 +38,24 @@ class FilepickerFile(File):
                 if longfield in additional_params:
                     query_params[field] = additional_params[longfield]
 
-        # Append the fields as GET query parameters to the URL in data.
-        r = requests.get(self.url, params=query_params, stream=True)
-        header = r.headers
-        disposition = header.get('Content-Disposition')
-        if disposition:
-            name = disposition.rpartition("filename=")[2].strip('" ')
-        filename = header.get('X-File-Name')
-        if filename:
-            name = filename
+        # iterate through one or more file urls
+        for url in self.url.split(","):
+            # Append the fields as GET query parameters to the URL in data.
+            r = requests.get(url, params=query_params, stream=True)
+            header = r.headers
+            disposition = header.get('Content-Disposition')
+            if disposition:
+                name = disposition.rpartition("filename=")[2].strip('" ')
+            filename = header.get('X-File-Name')
+            if filename:
+                name = filename
 
-        # Create a temporary file to save to it later
-        tmp = tempfile.NamedTemporaryFile(mode='w+b')
-        for chunk in r.iter_content(chunk_size=1024):
-            if chunk:
-                tmp.write(chunk) # Write the chunk
-                tmp.flush()
+            # Create a temporary file to save to it later
+            tmp = tempfile.NamedTemporaryFile(mode='w+b')
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk:
+                    tmp.write(chunk) # Write the chunk
+                    tmp.flush()
 
         # initialize File components of this object
         super(FilepickerFile, self).__init__(tmp,name=name)
