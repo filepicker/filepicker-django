@@ -9,8 +9,7 @@ class TestModel(models.Model):
 
     #FPFileField is a field that will render as a filepicker dragdrop widget, but
     #When accessed will provide a File-like interface (so you can do fpfile.read(), for instance)
-    fpfile = django_filepicker.models.FPFileField(upload_to='uploads')
-
+    fpfile = django_filepicker.models.FPFileField(upload_to='uploads', additional_params={'data-fp-multiple':'true'})
 
 class TestModelForm(forms.ModelForm):
     class Meta:
