@@ -6,7 +6,7 @@ try:
 except ImportError:
     import forms
     
-class FPUrlField(models.UrlField):
+class FPUrlField(models.URLField):
     description = ugettext_lazy("A URL field for storing FilePicker.IO urls that works with the FilePicker widget")
 
     def __init__(self, *args, **kwargs):
