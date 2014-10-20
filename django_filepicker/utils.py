@@ -14,7 +14,7 @@ class FilepickerFile(File):
             raise ValueError('Not a filepicker.io URL: %s' % url)
         self.url = url
 
-    def get_file(self, additional_params={}):
+    def get_file(self, additional_params=None):
         '''
         Downloads the file from filepicker.io and returns a
         Django File wrapper object.
