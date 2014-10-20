@@ -31,6 +31,21 @@ A django plugin to make integrating with Filepicker.io even easier
               # defined in TestModel
               form.save()
 
+  5.  Add the form.media variable above your other JavaScript calls.
+
+          <head>
+              <title>Form Template Example</title>
+              <!--  Normally this would go into a block defined in base.html that
+                    occurs before other JavaScript calls. -->
+              {{ form.media }}
+          </head>
+
+          <body>
+              <form method="POST" action="/" enctype="multipart/form-data">
+                  {{ form.as_p }}
+                  <input type="submit" />
+              </form>
+          </body>
 
 ##Demo
 To see how all the pieces come together, see the example code in demo/, which you can run with the standard
