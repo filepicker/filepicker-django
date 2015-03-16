@@ -8,6 +8,7 @@
         {%if message%}<p>{{message}}</p>{%endif%}
         <form method="post" action="{% url 'demo:pick' %}">
             {%csrf_token%}
+            {{ basic_form.as_p }}
             {{ form.as_p }}
             <p><input type="submit" value="Submit"/></p>
         </form>

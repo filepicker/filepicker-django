@@ -24,9 +24,8 @@ class URLFileMapperMiddleware(object):
                 pass
             else:
                 splits = val.split(",")
-                for url in splits:
-                    if key in request.FILES:
-                        request.FILES.setlist(key, list(
-                            request.FILES.getlist(key) + [fp.get_file()]))
-                    else:
-                        request.FILES[key] = fp.get_file()
+                if key in request.FILES:
+                    request.FILES.setlist(key,
+                        request.FILES.getlist(key) + fp.get_file())
+                else:
+                    request.FILES.setlist(key, fp.get_file())
