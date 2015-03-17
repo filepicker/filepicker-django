@@ -39,6 +39,7 @@ class FilepickerFile(File):
                     query_params[field] = additional_params[longfield]
 
         # iterate through one or more file urls
+        result = list()
         for url in self.url.split(","):
             # Append the fields as GET query parameters to the URL in data.
             r = requests.get(url, params=query_params, stream=True)
@@ -58,8 +59,9 @@ class FilepickerFile(File):
                     tmp.flush()
 
         # initialize File components of this object
-        super(FilepickerFile, self).__init__(tmp,name=name)
-        return self
+            file = File(tmp, name=name)
+            result.append(file)
+        return result
 
     def cleanup(self):
         '''
