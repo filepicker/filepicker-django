@@ -12,7 +12,6 @@ def pick(request):
     form = FileForm()
 
     if request.method == "POST":
-
         post = request.POST.dict()
         basic_form = BasicFilesForm(post)
         if basic_form.is_valid():
@@ -21,12 +20,14 @@ def pick(request):
         else:
             message = 'Invalid form'
 
+        files_links = request.POST['fpfile'].split(',')
         if post.get('mid_id', None):
-            for f in request.FILES.getlist("fpfile"):
+            for i, f in enumerate(request.FILES.getlist("fpfile")):
                 form = FileForm(post)
                 if form.is_valid():
                     fp = form.save(commit=False)
                     fp.fpfile = f
+                    fp.fpurl = files_links[i]
                     fp.mid_id = post.get('mid_id')
                     fp.save()
                 else:

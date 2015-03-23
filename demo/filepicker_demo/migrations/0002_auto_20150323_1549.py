@@ -27,6 +27,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('fpfile', django_filepicker.models.FPFileField(upload_to=b'uploads')),
+                ('fpurl', models.URLField(max_length=255, null=True, blank=True)),
                 ('mid', models.ForeignKey(to='filepicker_demo.BasicFilesModel')),
             ],
             options={

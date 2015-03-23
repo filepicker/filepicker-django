@@ -7,7 +7,8 @@ class BasicFilesModelAdmin(admin.ModelAdmin):
 
 
 class FileModelAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ('image_tag',)
+    list_display = ('__unicode__', 'image_tag')
 
 
 admin.site.register(FileModel, FileModelAdmin)
