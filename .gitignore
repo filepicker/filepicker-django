@@ -7,3 +7,4 @@ db.sqlite3
 .DS_STORE
 build
 django_filepicker.egg-info
+.idea

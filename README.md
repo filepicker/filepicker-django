@@ -21,6 +21,8 @@ A django plugin to make integrating with Filepicker.io even easier
 
   3.  Add a filepicker field to your model and set the upload_to value.
 
+          # *Please note, that FPFileField handle only one file*
+          # In demo you can see how to handle multiple files upload.
           fpfile = django_filepicker.models.FPFileField(upload_to='uploads')
 
   4.  Modify your view to accept the uploaded files along with the post data.
