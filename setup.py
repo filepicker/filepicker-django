@@ -5,7 +5,7 @@ except ImportError:
 
 setup(
     name='django-filepicker',
-    version='0.2.2',
+    version='0.2.3',
     description='Official Filepicker Django Library',
     author='Filepicker.io',
     author_email='contact@filepicker.io',
