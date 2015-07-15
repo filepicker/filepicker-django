@@ -1,3 +1,6 @@
+Version 0.2.3 - Jul 15 2015
+- Fixed problem of missing request headers
+
 Version 0.2.1 - Sep 26 2014
 - Updated the demo app
 - Updated .gitignore
