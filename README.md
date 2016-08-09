@@ -1,7 +1,7 @@
 django-filepicker
 =================
-![pypi-release](https://pypip.in/version/django-filepicker/badge.svg)
-![pypi-downloads](https://pypip.in/download/django-filepicker/badge.svg)
+[![PyPI](https://img.shields.io/pypi/dm/django-filepicker.svg?maxAge=2592000?style=flat-square)](https://pypi.python.org/pypi/django-filepicker)
+[![PyPI](https://img.shields.io/pypi/v/django-filepicker.svg?maxAge=2592000?style=flat-square)](https://pypi.python.org/pypi/django-filepicker)
 
 A django plugin to make integrating with Filepicker.io even easier
 
