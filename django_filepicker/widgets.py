@@ -21,4 +21,5 @@ class FPFileWidget(widgets.Input):
         return data
 
     class Media:
-        js = (JS_URL,)
+        # js = (JS_URL,)
+        pass
