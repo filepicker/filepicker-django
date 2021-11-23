@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext_lazy
 
 try:
     from . import forms
@@ -7,7 +7,7 @@ except ImportError:
     import forms
     
 class FPUrlField(models.URLField):
-    description = ugettext_lazy("A URL field for storing FilePicker.IO urls that works with the FilePicker widget")
+    description = gettext_lazy("A URL field for storing FilePicker.IO urls that works with the FilePicker widget")
 
     def __init__(self, *args, **kwargs):
         """
@@ -53,7 +53,7 @@ except ImportError:
 
 
 class FPFileField(models.FileField):
-    description = ugettext_lazy("A File selected using Filepicker.io")
+    description = gettext_lazy("A File selected using Filepicker.io")
 
     def __init__(self, *args, **kwargs):
         """

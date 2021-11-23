@@ -3,7 +3,7 @@ from django.forms import widgets
 
 #JS_URL is the url to the filepicker.io javascript library
 JS_VERSION = getattr(settings, "FILEPICKER_JS_VERSION", 1)
-JS_URL = "//api.filepicker.io/v%d/filepicker.js" % (JS_VERSION)
+JS_URL = f"//static.filestackapi.com/filestack-js/{JS_VERSION}.x.x/filestack.min.js"
 
 INPUT_TYPE = getattr(settings, "FILEPICKER_INPUT_TYPE", "filepicker-dragdrop")
 
@@ -21,4 +21,5 @@ class FPFileWidget(widgets.Input):
         return data
 
     class Media:
-        js = (JS_URL,)
+        # js = (JS_URL,)
+        pass

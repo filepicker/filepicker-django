@@ -3,6 +3,7 @@ try:
 except ImportError:
     from utils import FilepickerFile
 
+
 class URLFileMapperMiddleware(object):
     """
     This middleware will take any Filepicker.io urls that are posted to the server via a POST
@@ -15,6 +16,15 @@ class URLFileMapperMiddleware(object):
 
     Note that the original filepicker.io url will still be available in POST if you need it.
     """
+
+    def __init__(self, get_response=None):
+        if get_response is not None:
+            self.get_response = get_response
+
+    def __call__(self, request):
+        self.process_request(request)
+        return self.get_response(request)
+
     def process_request(self, request):
         #Iterate over GET or POST data, search for filepicker.io urls
         for key, val in list(request.POST.items()):
